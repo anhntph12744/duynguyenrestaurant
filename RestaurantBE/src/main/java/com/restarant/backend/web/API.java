@@ -26,6 +26,6 @@ public class API {
         time = convertTime.validate(time);
         Long x = convertTime.addHour(time,5l);
         String a = convertTime.convertToLocalDateTime(x).toString();
-        return a+"\t"+convertTime.convertToLocalDateTime(time)+"\t"+time+"\t"+x;
+        return convertTime.convertToLocalDateTime(time).toString();
     }
 }

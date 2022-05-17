@@ -19,6 +19,7 @@ public class ConvertTime {
     }
 
     public LocalDateTime convertToLocalDateTime(Long time){
+        time = validate(time);
         LocalDateTime result = LocalDateTime.ofInstant(Instant.ofEpochSecond(time),
                 TimeZone.getDefault().toZoneId());
         return result;

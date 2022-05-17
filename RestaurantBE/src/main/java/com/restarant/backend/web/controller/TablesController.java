@@ -80,16 +80,22 @@ public class TablesController {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of tables in body.
      */
     @GetMapping("/tables")
-    public List<TableDto> getAllTables(@RequestParam Long start,@RequestParam Long end) {
+    public ResponseEntity<?> getAllTables(@RequestParam Long start,@RequestParam Long end) {
         log.debug("REST request to get all Tables");
         Long start1;
+
         start1 = convertTime.validate(start);
         if (end==start){
             end = convertTime.addHour(start,3l);
         }else {
             end = convertTime.validate(end);
         }
-        return tableService.getbytime(start1,end);
+        LocalDateTime startTime = convertTime.convertToLocalDateTime(start);
+        LocalDateTime endTime = convertTime.convertToLocalDateTime(end);
+        if (startTime.getHour()<9||endTime.getHour()>23){
+            return ResponseEntity.badRequest().body(003);
+        }
+        return ResponseEntity.ok(tableService.getbytime(start1,end));
     }
 
     @GetMapping("/tables/now")

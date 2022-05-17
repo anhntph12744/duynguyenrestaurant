@@ -27,11 +27,21 @@ import Swal from 'sweetalert2'
 export default function BookTable() {
   const navigation = useNavigate();
   const [OrderDate, setOrderDate] = useState(moment());
+  const newtime = new Date();
+  var now = newtime;
+// var fourHoursLater = now.addHours(4);
+function addHoursToDate(date, hours) {
+  return new Date(new Date(date).setHours(date.getHours() + hours));
+}
+var x = addHoursToDate(now,3)
+console.log(x)
+console.log(now)
+  console.log(newtime);
   const [OrderTime, setOrderTime] = useState(
-    moment("2018-01-01T00:00:00.000Z")
+    moment(newtime)
   );
   const [endtime, setEndtime] = useState(
-    moment("2018-01-01T00:00:00.000Z")
+    moment(x)
   );
   const [SelectedTable, setSelectedTable] = useState([]);
   const [table, setTable] = useState();
@@ -49,8 +59,7 @@ export default function BookTable() {
   }, []);
 
   const gettime = async () => {
-    var time = new Date().getTime();
-    console.log(time)
+    
     const timeOrder = new Date(
       OrderDate.format("L") + " " + OrderTime.format("LTS")
     ).getTime();
