@@ -1,4 +1,7 @@
-import { Button, Container, Divider, Grid, Paper, Stack } from "@mui/material";
+import { Button, Container, Divider, Grid, Paper, Stack,  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle, } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import BookTableAPI from "../../API/BookTableAPI";
@@ -50,30 +53,30 @@ export default function Cart() {
       let countDatcoc = 0;
       let sumI = 0
       let tempOrder = [];
-      res[0].orderDetails.map((e)=>{
-        sumI+=(discount(
+      res[0].orderDetails.map((e) => {
+        sumI += (discount(
           e.foodDetalls.amount,
           e.foodDetalls.discount
-        ))*+e.quantity;
+        )) * +e.quantity;
 
-        if (e.status==="Vừa thêm vào") {
+        if (e.status === "Vừa thêm vào") {
           countXacnhan++;
         }
-        if (e.status==="Đã xác nhận") {
+        if (e.status === "Đã xác nhận") {
           countDatcoc++;
         }
 
         tempOrder.push(e);
       })
-      
+
       setFoodOrder(tempOrder);
       setOrderId(res[0].orderTotalId);
       setSumPrice(sumI);
 
-      if(countXacnhan > 0) {
+      if (countXacnhan > 0) {
         setXacnhanBtn(true);
       }
-      if(countDatcoc > 0) {
+      if (countDatcoc > 0) {
         setDatcocBtn(true);
       }
     }
@@ -168,9 +171,9 @@ export default function Cart() {
                             {item.foodDetalls.discount == 0
                               ? item.foodDetalls.amount + " VND"
                               : discount(
-                                  item.foodDetalls.amount,
-                                  item.foodDetalls.discount
-                                ) + " VND"}
+                                item.foodDetalls.amount,
+                                item.foodDetalls.discount
+                              ) + " VND"}
                           </p>
                           <Divider orientation="vertical" flexItem />
                           <p
@@ -204,23 +207,20 @@ export default function Cart() {
                   <Stack spacing={2}>
                     {foodOrder?.map((item, index) => (
                       <Box key={index}>
-                        <p className="cart-text">{`${index+1}, ${
-                          item.foodDetalls.foodName
-                        } | ${
-                          item.foodDetalls.discount == 0
+                        <p className="cart-text">{`${index + 1}, ${item.foodDetalls.foodName
+                          } | ${item.foodDetalls.discount == 0
                             ? item.foodDetalls.amount
                             : discount(
-                                item.foodDetalls.amount,
-                                item.foodDetalls.discount
-                              )
-                        } * ${item.quantity} = ${
-                          item.foodDetalls.discount == 0
+                              item.foodDetalls.amount,
+                              item.foodDetalls.discount
+                            )
+                          } * ${item.quantity} = ${item.foodDetalls.discount == 0
                             ? item.foodDetalls.amount * item.quantity
                             : discount(
-                                item.foodDetalls.amount,
-                                item.foodDetalls.discount
-                              ) * item.quantity
-                        } VND`}</p>
+                              item.foodDetalls.amount,
+                              item.foodDetalls.discount
+                            ) * item.quantity
+                          } VND`}</p>
                       </Box>
                     ))}
                     {xacnhanBtn && (<Box id="confirm" width="100%" textAlign="center">
@@ -266,6 +266,21 @@ export default function Cart() {
                     </Box>
                   </Stack>
                 </Stack>
+
+                <Dialog >
+                  <DialogTitle sx={{ textAlign: "center" }}>
+                  aaaaaaaaaaaaaaaaaaa
+                  </DialogTitle>
+                  <DialogContent>
+                    aaaaaaaaaaaaaaaaaaaa
+                  </DialogContent>
+                  <DialogActions>
+                    <Button >Disagree</Button>
+                    <Button  autoFocus>
+                      Agree
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </Paper>
             </Grid>
           </Grid>
