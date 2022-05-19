@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import { Button, IconButton } from "@mui/material";
 import Swal from "sweetalert2";
 import ModalMessage from "../../../components/Modal/ModalMessage";
@@ -187,6 +188,15 @@ const OrderDetail = (props) => {
           <Button
             variant="outlined"
             size="small"
+            color="secondary"
+            onClick={() => navigation("/admin/orders-management")}
+            startIcon={<ArrowBackRoundedIcon />}
+          >
+            Quay lại
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
             color="error"
             startIcon={<DeleteForeverIcon />}
             onClick={() => {
@@ -200,6 +210,11 @@ const OrderDetail = (props) => {
             size="small"
             color="secondary"
             startIcon={<AddRoundedIcon />}
+            onClick={() =>
+              navigation(
+                `/admin/orders-management/${props.foodsAtTable.orderId}/${props.foodsAtTable.tablesId}/add`
+              )
+            }
           >
             Thêm mới
           </Button>
@@ -222,10 +237,17 @@ const OrderDetail = (props) => {
           />
           <Table.Column
             title="Tên món"
-            dataIndex="foodName"
             key="foodName"
             align="left"
             width={600}
+            render={(record) => {
+              return (
+                <span>
+                  {record.foodName} <br />
+                  Size {record.size}
+                </span>
+              );
+            }}
           />
           <Table.Column
             title="Số lượng"
