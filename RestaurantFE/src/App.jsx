@@ -24,7 +24,10 @@ import UserSettings from "./container/User";
 import OrderManagement from "./container/Admin/OrderManagement";
 import OrderDetail from "./container/Admin/OrderManagement/OrderDetail";
 import CreateOrder from "./container/Admin/OrderManagement/CreateOrder";
-import NotFound404 from "./components/NotFound404";
+import Custommer from "./container/Admin/CustomerManagement";
+import Staff from "./container/Admin/Staff";
+import NewStaff from "./container/Admin/Staff/NewStaff";
+// import NotFound404 from "./components/NotFound404";
 import AddFood from "./container/Admin/OrderManagement/AddFood";
 
 const MuiTheme = createTheme({
@@ -40,6 +43,7 @@ const MuiTheme = createTheme({
 
 const App = () => {
   const [foodsAtTable, setFoodsAtTable] = useState([]);
+  const [orderStatus, setOrderStatus] = useState();
 
   return (
     <Routes>
@@ -55,12 +59,15 @@ const App = () => {
         <Route path="/user-settings" element={<UserSettings />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
+        <Route path="customer" element={<Custommer />} />
+        <Route path="staff" element={<Staff />} />
         <Route index element={<DashboardAdmin />} />
         <Route path="categories" element={<CategoriesAdmin />} />
         <Route path="analist" element={<ChartAdmin />} />
         <Route path="foods" element={<FoodsAdmin />} />
         <Route path="foods/fix-food/:id" element={<FixFoods />} />
         <Route path="/admin/foods/new-food" element={<NewFood />} />
+        <Route path="/admin/staff/new-staff" element={<NewStaff />} />
         <Route path="tables" element={<TableAdmin />} />
         <Route path="orders" element={<ConfirmOrder />} />
         <Route
@@ -69,6 +76,7 @@ const App = () => {
             <OrderManagement
               foodsAtTable={foodsAtTable}
               setFoodsAtTable={setFoodsAtTable}
+              setOrderStatus={setOrderStatus}
             />
           }
         />
@@ -87,6 +95,7 @@ const App = () => {
             <OrderDetail
               foodsAtTable={foodsAtTable}
               setFoodsAtTable={setFoodsAtTable}
+              orderStatus={orderStatus}
             />
           }
         />
@@ -100,7 +109,7 @@ const App = () => {
           }
         />
       </Route>
-      <Route path="/404" element={<NotFound404 />} />
+      {/* <Route path="/404" element={<NotFound404 />} /> */}
     </Routes>
   );
 };
