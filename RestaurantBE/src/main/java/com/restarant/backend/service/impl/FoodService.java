@@ -32,23 +32,27 @@ public class FoodService implements IFoodService {
         this.categoryRepository = categoryRepository;
     }
 
+    // TODO
     @Override
     public FoodDto create(FoodDto foodDto) throws InvalidDataExeception {
         if(foodDto == null){
             throw new InvalidDataExeception("food must not be null");
         }
 
+        // kiểm tra xem có thuộc categỏy nào chưa
         if(foodDto.getCategory() != null && foodDto.getCategory().getId() != null){
             if(!categoryRepository.existsById(foodDto.getCategory().getId())){
                 throw new InvalidDataExeception("category-id not found");
             }
         }
 
+        // map từ dto sang entity để lưu vào db
         Food food = mapper.convertToEntity(foodDto);
         food.setCreate(LocalDate.now());
 
         log.info(String.format("Someone create Food[id-%d]", foodDto.getId()));
 
+        // lưu vào db
         Food result = foodRepository.save(food);
         return mapper.convertToDto(result);
     }

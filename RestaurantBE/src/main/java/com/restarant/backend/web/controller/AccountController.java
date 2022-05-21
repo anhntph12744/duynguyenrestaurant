@@ -51,16 +51,24 @@ public class AccountController {
         this.encoder = encoder;
     }
 
+    /**
+     * Xác thực đăng nhập, tạo token gửi về cho client
+     *
+     * @param loginRequest
+     * @return
+     */
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getLogin(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getLogin(), // laasy username
+                        loginRequest.getPassword())); // lấy pass
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication); // tạo token
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
+        List<String> roles = userDetails.getAuthorities().stream() // lấy ra danh sách role
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
         Map<String, String> map = new HashMap();
@@ -70,19 +78,33 @@ public class AccountController {
         return ResponseEntity.ok(map);
     }
 
+//TODO
+    /**
+     * Lấy thông tin đăng kí lưu vào db
+     *
+     * @param account
+     * @return
+     * @throws URISyntaxException
+     */
     @PostMapping("/register")
     public ResponseEntity<?> createAccount(@RequestBody Account account) throws URISyntaxException {
-        account.setPassword(encoder.encode(account.getPassword()));
+        account.setPassword(encoder.encode(account.getPassword())); // tạo password mã hóa lưu vào db
         account.setTimereset(LocalDate.now());
         account.setCecret(UUID.randomUUID().toString());
-        account.setRole("ROLE_USER");
-        Account result = accountService.createAccount(account);
+        account.setRole("ROLE_USER"); // role mặc định là user
+        Account result = accountService.createAccount(account); // lưu vào db
         return ResponseEntity.ok().body(result);
     }
 
+    /**
+     * lấy thông tin tài khoản đăng nhập
+     *
+     * @param principal
+     * @return
+     */
     @GetMapping("/account")
     public ResponseEntity<?> getAccount(Principal principal){
-        Account result = accountService.getAccountByLogin(principal.getName());
+        Account result = accountService.getAccountByLogin(principal.getName()); // lấy thông tin user login trong request
         return ResponseEntity.ok(result);
     }
 }

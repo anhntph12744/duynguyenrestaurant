@@ -68,14 +68,17 @@ public class CustomerService implements ICustomerService {
         );
     }
 
+    // TODO
+    // khóa tài khoản và thông tin cá nhân customer
     @Override
     public boolean deleteById(Long id) throws InvalidDataExeception {
-        Customer customer = customerRepository.getById(id);
-        Account account = customer.getAccount();
-        account.setDeleteFlag(true);
-        customer.setDeleteflag(Long.valueOf("1"));
-        customerRepository.save(customer);
-        accountRepository.save(account);
+
+        Customer customer = customerRepository.getById(id); // lấy ra thông tin customer theo id
+        Account account = customer.getAccount(); // lấy ra thông tin đăng nhập của customer đó
+        account.setDeleteFlag(true); // bật cờ xóa cho tài khoản customer
+        customer.setDeleteflag(Long.valueOf("1")); // bật cờ xóa cho thông tin cá nhân của customer
+        customerRepository.save(customer);  // lưu trạng thái xóa
+        accountRepository.save(account); // lưu trạng thái xóa
         return false;
     }
 

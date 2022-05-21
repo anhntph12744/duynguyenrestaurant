@@ -38,6 +38,7 @@ public class FoodController {
         this.foodservice = foodservice;
     }
 
+    // TODO
     /**
      * {@code POST  /foods} : Create a new food.
      *
@@ -49,7 +50,7 @@ public class FoodController {
     public ResponseEntity<?> createFood(@RequestBody FoodDto foodDto) throws URISyntaxException {
         log.info("REST request to save Food : {}", foodDto);
         try {
-            FoodDto result = foodservice.create(foodDto);
+            FoodDto result = foodservice.create(foodDto);//lưu vào db
             return ResponseEntity.ok().body(result);
         } catch (InvalidDataExeception e) {
             log.error("Error when create Food", e);
@@ -101,6 +102,13 @@ public class FoodController {
         return ResponseEntity.ok(result);
     }
 
+
+    /**
+     * Lấy food theo category
+     * @param query
+     * @param pageable
+     * @return
+     */
     @GetMapping("/foodsby")
     public ResponseEntity<?> getAllFoods(@RequestParam String query,Pageable pageable) {
         log.info("query\t"+query);

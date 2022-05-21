@@ -39,6 +39,7 @@ public class FoodDetailService implements IFoodDetailService {
         this.foodRepository = foodRepository;
     }
 
+    // TODO
     @Override
     public FoodDetailsDto create(FoodDetailsDto dto) throws InvalidDataExeception {
         foodDetailValidator.validate(dto);
@@ -50,6 +51,8 @@ public class FoodDetailService implements IFoodDetailService {
         food.setId(dto.getFoodId());
         entity.setFood(food);
         if (dto.getFoodMedias() != null) {
+
+            // duyệt list food detail dto map sang entity
             entity.setFoodMedias(
                     dto.getFoodMedias().stream()
                             .map(foodMediaDto -> foodMedialMapper.convertToEntity(foodMediaDto))

@@ -50,7 +50,7 @@ public class CustomerController {
         log.debug("REST request to save Customer : {}", customerDto);
 
         try {
-            CustomerDto result = customerService.create(customerDto);
+            CustomerDto result = customerService.create(customerDto); // lưu thông tin customer
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
         } catch (InvalidDataExeception e) {
             log.error("Error when save customer", e);
@@ -145,17 +145,25 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
+    // TODO
+
+    /**
+     * Cập nhật thông tin cá nhân khách hàng
+     *
+     * @param request
+     * @param customerDto
+     * @return
+     */
     @PostMapping("/customer")
     public ResponseEntity<?> saveCustomer(HttpServletRequest request, @RequestBody CustomerDto customerDto) {
         try {
             CustomerDto customer = customerService.getById(request);
-            System.out.println(customerDto.toString());
             if(customer == null){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             } else {
-                customer.setName(customerDto.getName());
-                customer.setPhoneNumber(customerDto.getPhoneNumber());
-                customerService.create(customerDto);
+                customer.setName(customerDto.getName()); // lấy tên mới
+                customer.setPhoneNumber(customerDto.getPhoneNumber()); // lấy số điện thoại mới
+                customerService.create(customerDto); // lưu thông tin mới
             }
             return ResponseEntity.ok(customer);
         } catch (InvalidDataExeception e) {
@@ -174,7 +182,7 @@ public class CustomerController {
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         log.debug("REST request to delete Customer : {}", id);
         try {
-            customerService.deleteById(id);
+            customerService.deleteById(id); // xóa theo id
             return ResponseEntity.ok(null);
         } catch (InvalidDataExeception e) {
             log.error("Error when delete customer", e);

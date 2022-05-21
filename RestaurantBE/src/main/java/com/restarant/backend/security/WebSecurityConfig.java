@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
   @Autowired
   UserDetailsServiceImpl userDetailsService;
 
@@ -33,6 +34,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return new AuthTokenFilter();
   }
 
+  /**
+   * Cấu hình xác thực đăng nhập
+   *
+   * @param authenticationManagerBuilder
+   * @throws Exception
+   */
   @Override
   public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
     authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -44,21 +51,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return super.authenticationManagerBean();
   }
 
+  //TODO
   @Bean
-  public PasswordEncoder passwordEncoder() {
+  public PasswordEncoder passwordEncoder() {   // khai báo bean để giải mã password
     return new BCryptPasswordEncoder();
   }
 
+  /**
+   * Cấu hình phân quyền
+   * @param http
+   * @throws Exception
+   */
+  //TODO
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable();
-    http.authorizeRequests().anyRequest().permitAll();
-//      .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//      .authorizeRequests().antMatchers("/product/**","/category/**").hasAnyAuthority("admin")
-//            .antMatchers("/api/**").authenticated()
-//      .anyRequest().permitAll()
-//    ;
-//    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.authorizeRequests().anyRequest( ).permitAll();
+
+      .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+      .authorizeRequests().antMatchers("/product/**","/category/**").hasAnyAuthority("admin") // chỉ có admin mới vào được các url /product/**, /categỏy/*
+            .antMatchers("/api/**").authenticated()
+      .anyRequest().permitAll()
+    ;
+    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 }

@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+  //TODO
 
   @Autowired
   PasswordEncoder encoder;
@@ -21,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Override
   @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Account user = accRepo.getByLogin(username);
+    Account user = accRepo.getByLogin(username); // lấy ra user theo username
     return UserDetailsImpl.build(user);
   }
 

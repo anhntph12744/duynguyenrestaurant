@@ -53,13 +53,15 @@ public class FoodMediaController {
 //        return urls;
 //    }
 
+    //TODO
     @PostMapping("/food-medias/image/upload")
     public ResponseEntity<?> upload(@RequestBody MultipartFile[] files) {
         List<String> links = new ArrayList<>();
 
+        // duyệt danh sách byte ảnh gửi về
         for(MultipartFile multipartFile: files){
             try {
-                links.add(UploadService.upload(multipartFile));
+                links.add(UploadService.upload(multipartFile)); //truyền vào service để save ảnh
             } catch (IOException e) {
             }
         }
