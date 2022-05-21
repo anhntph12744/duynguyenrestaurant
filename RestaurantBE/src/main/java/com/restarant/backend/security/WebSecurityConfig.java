@@ -68,11 +68,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.cors().and().csrf().disable();
     http.authorizeRequests().anyRequest( ).permitAll();
 
-      .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-      .authorizeRequests().antMatchers("/product/**","/category/**").hasAnyAuthority("admin") // chỉ có admin mới vào được các url /product/**, /categỏy/*
-            .antMatchers("/api/**").authenticated()
-      .anyRequest().permitAll()
+//      .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//      .authorizeRequests().antMatchers("/product/**","/category/**").hasAnyAuthority("admin") // chỉ có admin mới vào được các url /product/**, /categỏy/*
+//            .antMatchers("/api/**").authenticated()
+//      .anyRequest().permitAll()
     ;
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
   }

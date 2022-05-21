@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface AccountRepository extends JpaRepository<Account,Long> {
     @Query(value = "select a from Account a where a.login =:login")
     Account getByLogin(@Param("login") String login);
+
+    Account findAccountByLogin(String login);
 }

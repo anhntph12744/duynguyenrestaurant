@@ -8,4 +8,5 @@ public interface IAccountService {
     Account getAccountById(Long id);
 
     Account getAccountByLogin(String login);
+
 }

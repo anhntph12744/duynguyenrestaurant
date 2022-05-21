@@ -11,6 +11,7 @@ import com.restarant.backend.service.IAccountService;
 import com.restarant.backend.dto.LoginRequest;
 import com.restarant.backend.service.utils.JwtServiceUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -96,6 +97,9 @@ public class AccountController {
      */
     @PostMapping("/register")
     public ResponseEntity<?> createAccount(@RequestBody Account account) throws URISyntaxException {
+        if(accountService.getAccountByLogin(account.getLogin()) != null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("EMAIL_EXIST");
+        }
         account.setPassword(encoder.encode(account.getPassword())); // tạo password mã hóa lưu vào db
         account.setTimereset(LocalDate.now());
         account.setCecret(UUID.randomUUID().toString());

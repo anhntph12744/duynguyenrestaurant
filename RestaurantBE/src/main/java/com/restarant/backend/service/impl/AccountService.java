@@ -7,6 +7,8 @@ import com.restarant.backend.repository.CustomerRepository;
 import com.restarant.backend.service.IAccountService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccountService implements IAccountService {
 
@@ -42,4 +44,5 @@ public class AccountService implements IAccountService {
     public Account getAccountByLogin(String login) {
         return accountRepository.getByLogin(login);
     }
+
 }

@@ -39,6 +39,8 @@ export default function Register() {
       );
     } else if (res.status === 403) {
       setValidAPI("Tài khoản hoặc mật khẩu không đúng");
+    } else if(res.data == 'EMAIL_EXIST'){
+      setValidAPI("Địa chỉ email này đã được đăng kí!");
     } else {
       setValidAPI("Lỗi hệ thống, vui lòng liên hệ quản trị viên");
     }
